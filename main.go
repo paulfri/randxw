@@ -9,10 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// https://www.nytimes.com/crosswords/game/daily/1993/11/21
-const urlFormat = "https://www.nytimes.com/crosswords/game/daily/%s"
-const dateSegmentFormat = "2006/01/02"
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	r := gin.Default()
