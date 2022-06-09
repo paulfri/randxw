@@ -16,6 +16,7 @@ func main() {
 	r.GET("/", todayCrosswordRoute)
 	r.GET("/random", randomCrosswordRoute)
 	r.GET("/:dow", dowCrosswordRoute)
+	r.GET("/clue", searchRoute)
 
 	port := os.Getenv("PORT")
 	if port == "" {
