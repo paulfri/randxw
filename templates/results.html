@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>"{{.query}}" crossword answers &middot; puzzle.ink</title>
+  </head>
+  <body>
+    <h1>"{{.query}}" crossword answers ({{.date}})</h1>
+    <ul>
+      {{range .results}}
+      <li>{{.Target}}</li>
+      {{end}}
+    </ul>
+  </body>
+</html>

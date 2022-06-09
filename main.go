@@ -13,6 +13,8 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	r := gin.Default()
 
+	r.LoadHTMLGlob("./templates/*.html")
+
 	r.GET("/", todayCrosswordRoute)
 	r.GET("/random", randomCrosswordRoute)
 	r.GET("/:dow", dowCrosswordRoute)

@@ -26,11 +26,12 @@ func dowCrosswordRoute(c *gin.Context) {
 
 func searchRoute(c *gin.Context) {
 	query := c.Query("q")
+	time := timeInNewYork()
+	results := scrapeAnswers(query, time)
 
-	results := scrapeAnswers(query)
-
-	c.JSON(http.StatusOK, gin.H{
+	c.HTML(http.StatusOK, "results.html", gin.H{
 		"query":   query,
+		"date":    dateString(time),
 		"results": results,
 	})
 }

@@ -29,9 +29,14 @@ func randomCrosswordURLByDayOfWeek(dow string) string {
 }
 
 func todayCrosswordURL() string {
-	newYork, _ := time.LoadLocation("America/New_York")
-	date := time.Now().In(newYork)
-	dateSegment := dateString(date)
+	time := timeInNewYork()
+	dateSegment := dateString(time)
 
 	return fmt.Sprintf(urlFormat, dateSegment)
+}
+
+func timeInNewYork() time.Time {
+	newYork, _ := time.LoadLocation("America/New_York")
+
+	return time.Now().In(newYork)
 }

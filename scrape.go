@@ -11,7 +11,7 @@ import (
 
 const searchURLFormat = "https://www.xwordinfo.com/Crossword?date=%s"
 
-func scrapeAnswers(query string) []fuzzy.Rank {
+func scrapeAnswers(query string, date time.Time) []fuzzy.Rank {
 	var answers []string
 
 	c := colly.NewCollector()
@@ -26,8 +26,7 @@ func scrapeAnswers(query string) []fuzzy.Rank {
 		answers = append(answers, e.Text)
 	})
 
-	today := time.Now()
-	answerURL := fmt.Sprintf(searchURLFormat, dateString(today))
+	answerURL := fmt.Sprintf(searchURLFormat, dateString(date))
 	c.Visit(answerURL)
 
 	matches := fuzzy.RankFindNormalizedFold(query, answers)
