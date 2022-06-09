@@ -13,7 +13,8 @@ import (
 )
 
 // https://www.nytimes.com/crosswords/game/daily/1993/11/21
-const format = "https://www.nytimes.com/crosswords/game/daily/%s"
+const urlFormat = "https://www.nytimes.com/crosswords/game/daily/%s"
+const dateSegmentFormat = "2006/01/02"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -25,7 +26,12 @@ func main() {
 
 	r.GET("/:dow", func(c *gin.Context) {
 		dow := c.Param("dow")
-		c.Redirect(http.StatusFound, randomCrosswordURLByDayOfWeek(dow))
+
+		if isValidDow(dow) {
+			c.Redirect(http.StatusFound, randomCrosswordURLByDayOfWeek(dow))
+		} else {
+			c.Status(http.StatusNotFound)
+		}
 	})
 
 	port := os.Getenv("PORT")
@@ -41,14 +47,10 @@ func randomCrosswordURL() string {
 	date := randomDate()
 	dateSegment := dateString(date)
 
-	return fmt.Sprintf(format, dateSegment)
+	return fmt.Sprintf(urlFormat, dateSegment)
 }
 
 func randomCrosswordURLByDayOfWeek(dow string) string {
-	if !isValidDow(dow) {
-		return randomCrosswordURL()
-	}
-
 	var generatedDow string
 	var date time.Time
 	for ok := true; ok; ok = (strings.ToLower(generatedDow) != strings.ToLower(dow)) {
@@ -59,7 +61,7 @@ func randomCrosswordURLByDayOfWeek(dow string) string {
 
 	dateSegment := dateString(date)
 
-	return fmt.Sprintf(format, dateSegment)
+	return fmt.Sprintf(urlFormat, dateSegment)
 }
 
 func isValidDow(dow string) bool {
@@ -93,5 +95,5 @@ func randomDate() time.Time {
 }
 
 func dateString(unix time.Time) string {
-	return unix.Format("2006/01/02")
+	return unix.Format(dateSegmentFormat)
 }
