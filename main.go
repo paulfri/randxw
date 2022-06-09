@@ -21,6 +21,10 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusFound, todayCrosswordURL())
+	})
+
+	r.GET("/random", func(c *gin.Context) {
 		c.Redirect(http.StatusFound, randomCrosswordURL())
 	})
 
@@ -59,6 +63,14 @@ func randomCrosswordURLByDayOfWeek(dow string) string {
 		log.Println(generatedDow)
 	}
 
+	dateSegment := dateString(date)
+
+	return fmt.Sprintf(urlFormat, dateSegment)
+}
+
+func todayCrosswordURL() string {
+	newYork, _ := time.LoadLocation("America/New_York")
+	date := time.Now().In(newYork)
 	dateSegment := dateString(date)
 
 	return fmt.Sprintf(urlFormat, dateSegment)
