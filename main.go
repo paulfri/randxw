@@ -46,7 +46,7 @@ func randomCrosswordURL() string {
 
 func randomCrosswordURLByDayOfWeek(dow string) string {
 	if !isValidDow(dow) {
-		panic("Invalid weekday")
+		return randomCrosswordURL()
 	}
 
 	var generatedDow string
