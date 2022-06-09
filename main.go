@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -20,10 +22,12 @@ func main() {
 		c.Redirect(http.StatusFound, randomCrosswordURL())
 	})
 
-	err := r.Run(":3000")
-
-	if err != nil {
-		panic(fmt.Sprintf("Failed to start server: %s", err))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	if err := r.Run(":" + port); err != nil {
+		log.Panicf("error: %s", err)
 	}
 }
 
